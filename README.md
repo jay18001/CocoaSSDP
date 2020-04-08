@@ -16,6 +16,10 @@ it simply add the following line to your Podfile:
 
     pod "CocoaSSDP"
 
+Swift package Manager
+    
+    .package(url: "https://github.com/jay18001/CocoaSSDP", from: "1.1.0"),
+
 ## Author
 
 Stephane Boisson
