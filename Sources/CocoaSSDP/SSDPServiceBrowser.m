@@ -23,7 +23,6 @@
 
 #import "SSDPServiceBrowser.h"
 
-#import "GCDAsyncUdpSocket.h"
 #import "SSDPService.h"
 #import "SSDPServiceTypes.h"
 
@@ -32,6 +31,14 @@
 #import <net/if.h>
 #import <arpa/inet.h>
 
+@import CocoaAsyncSocket;
+@import Foundation;
+
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) || defined(__TV_OS_VERSION_MIN_REQUIRED)
+@import UIKit;
+#elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
+@import Cocoa;
+#endif
 
 NSString *const SSDPMulticastGroupAddress = @"239.255.255.250";
 int const SSDPMulticastUDPPort = 1900;

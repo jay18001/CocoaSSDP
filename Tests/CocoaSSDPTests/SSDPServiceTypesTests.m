@@ -21,9 +21,9 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
-#import "SSDPServiceTypes.h"
+@import XCTest;
+@import Foundation;
+@import CocoaSSDP;
 
 @interface SSDPServiceTypesTests : XCTestCase
 

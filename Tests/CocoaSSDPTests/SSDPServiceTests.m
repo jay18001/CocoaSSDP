@@ -21,9 +21,9 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "SSDPService.h"
+@import Foundation;
+@import CocoaSSDP;
 
 static NSString * const kLocationHeaderString = @"headerString";
 static NSString * const kServiceTypeHeaderString = @"serviceType";

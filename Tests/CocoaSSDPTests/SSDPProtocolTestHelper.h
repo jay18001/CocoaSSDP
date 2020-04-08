@@ -1,6 +1,6 @@
 //
-//  SSDPMasterViewController.h
-//  Copyright (c) 2014 Stephane Boisson
+//  SSDPServiceBrowserDelegateTestHelper.h
+//  Copyright (c) 2015 Paul Williamson
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,15 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <CocoaSSDP/SSDPServiceBrowser.h>
+@import CocoaSSDP;
+@import Foundation;
 
-@class SSDPDetailViewController;
+typedef void (^CallbackBlock)(id firstArgument, id secondArgument);
 
-@interface SSDPMasterViewController : UITableViewController <SSDPServiceBrowserDelegate>
+@interface SSDPProtocolTestHelper : NSObject <SSDPServiceBrowserDelegate>
 
-@property (strong, nonatomic) SSDPDetailViewController *detailViewController;
+@property (copy, nonatomic) CallbackBlock foundServiceBlock;
+@property (copy, nonatomic) CallbackBlock errorServiceBlock;
+@property (copy, nonatomic) CallbackBlock removeServiceBlock;
 
 @end

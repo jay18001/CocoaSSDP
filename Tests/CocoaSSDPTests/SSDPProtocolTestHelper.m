@@ -22,6 +22,8 @@
 //
 
 #import "SSDPProtocolTestHelper.h"
+@import CocoaSSDP;
+@import Foundation;
 
 @implementation SSDPProtocolTestHelper
 

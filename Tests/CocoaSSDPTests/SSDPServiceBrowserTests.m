@@ -21,14 +21,56 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import <OCMock/OCMock.h>
-#import <CocoaAsyncSocket/GCDAsyncUdpSocket.h>
-#import "SSDPServiceBrowser.h"
-#import "SSDPService.h"
 #import "SSDPProtocolTestHelper.h"
+@import Foundation;
+@import CocoaAsyncSocket;
+@import CocoaSSDP;
 
+@interface MockSocket : GCDAsyncUdpSocket
+@property (nonatomic) BOOL shouldBeConnected;
+@property (nonatomic) BOOL didBindToAddress;
+@property (nonatomic) BOOL didJoinMulticastGroup;
+@property (nonatomic) BOOL didClose;
+@property (nonatomic) BOOL didBeginReceiving;
+@property (nonatomic, copy) void (^sendDataBlock)(NSData * data, NSString * host, uint16_t port, NSTimeInterval timeout, long tag);
+@end
+
+@implementation MockSocket
+
+- (BOOL)isConnected {
+    return self.shouldBeConnected;
+}
+
+- (BOOL)bindToAddress:(NSData *)localAddr error:(NSError *__autoreleasing  _Nullable *)errPtr
+{
+    self.didBindToAddress = YES;
+    return YES;
+}
+
+- (BOOL)joinMulticastGroup:(NSString *)group error:(NSError *__autoreleasing  _Nullable *)errPtr
+{
+    self.didJoinMulticastGroup = YES;
+    return YES;
+}
+
+- (void)sendData:(NSData *)data toHost:(NSString *)host port:(uint16_t)port withTimeout:(NSTimeInterval)timeout tag:(long)tag
+{
+    if (self.sendDataBlock == NULL) {
+        return;
+    }
+    self.sendDataBlock(data, host, port, timeout, tag);
+}
+
+- (BOOL)beginReceiving:(NSError *__autoreleasing  _Nullable *)errPtr {
+    self.didBeginReceiving = YES;
+    return YES;
+}
+
+- (void)close {
+    self.didClose = YES;
+}
+@end
 
 // You should normally favour dependancy injection, but as this is legacy code,
 // we have to expose the private property instead.
@@ -44,23 +86,11 @@
 
 
 @interface SSDPServiceBrowserTests : XCTestCase
-@property (strong, nonatomic) id mockSocket;
+
 @end
 
 
 @implementation SSDPServiceBrowserTests
-
-- (void)setUp
-{
-    [super setUp];
-    _mockSocket = [OCMockObject niceMockForClass:[GCDAsyncUdpSocket class]];
-}
-
-- (void)tearDown
-{
-    [super tearDown];
-    [_mockSocket stopMocking];
-}
 
 - (void)testInitialisationSetsInterface
 {
@@ -90,22 +120,12 @@
 
 - (void)testStartBrowsingForServicesSendsDataIfConnected
 {
+    MockSocket *mockSocket = [[MockSocket alloc] init];
+    mockSocket.shouldBeConnected = YES;
+    
     SSDPServiceBrowser *browser = [[SSDPServiceBrowser alloc] init];
-    browser.socket = _mockSocket;
-    [[[_mockSocket stub] andReturnValue:@(YES)] isConnected];
-    
-    // Reject setup methods
-    [[_mockSocket reject]
-     bindToAddress:[OCMArg any]
-     error:[OCMArg anyObjectRef]];
-    
-    [[_mockSocket reject]
-     joinMulticastGroup:[OCMArg any]
-     error:[OCMArg anyObjectRef]];
-    
-    [[_mockSocket reject]
-     beginReceiving:[OCMArg anyObjectRef]];
-    
+    browser.socket = mockSocket;
+
     NSString *searchHeader = [NSString stringWithFormat:
                               @"M-SEARCH * HTTP/1.1\r\n"
                               @"HOST: 239.255.255.250:1900\r\n"
@@ -115,64 +135,53 @@
                               @"USER-AGENT: %@/1\r\n\r\n\r\n",
                               [browser _userAgentString]];
     NSData *data = [searchHeader dataUsingEncoding:NSUTF8StringEncoding];
-    
-    // expectation
-    [[_mockSocket expect] sendData:data
-                            toHost:@"239.255.255.250"
-                              port:1900
-                       withTimeout:-1
-                               tag:11];
-    
+
+    mockSocket.sendDataBlock = ^(NSData *sendData, NSString * host, uint16_t port, NSTimeInterval timeout, long tag) {
+        XCTAssertTrue([sendData isEqualToData:data]);
+        XCTAssertEqual(host, @"239.255.255.250");
+        XCTAssertEqual(port, 1900);
+        XCTAssertEqual(timeout, -1);
+        XCTAssertEqual(tag, 11);
+        
+    };
+
     // call
     [browser startBrowsingForServices:@"ssdp:all"];
-    
-    // verify
-    [_mockSocket verify];
+
+    XCTAssertFalse(mockSocket.didBindToAddress);
+    XCTAssertFalse(mockSocket.didJoinMulticastGroup);
+    XCTAssertFalse(mockSocket.didBeginReceiving);
 }
 
 - (void)testStartBrowsingForServicesSetsUpSocketIfNotConnected
 {
+    MockSocket *mockSocket = [[MockSocket alloc] init];
+    mockSocket.shouldBeConnected = NO;
+    
     SSDPServiceBrowser *browser = [[SSDPServiceBrowser alloc] init];
-    browser.socket = _mockSocket;
-    
-    [[[_mockSocket expect] andReturnValue:@(NO)] isConnected];
-    
-    // Stub methods to return success
-    [[[_mockSocket expect] andReturnValue:@(YES)]
-     bindToAddress:[OCMArg any]
-     error:[OCMArg anyObjectRef]];
-    
-    [[[_mockSocket expect] andReturnValue:@(YES)]
-     joinMulticastGroup:[OCMArg any]
-     error:[OCMArg anyObjectRef]];
-    
-    [[[_mockSocket expect] andReturnValue:@(YES)]
-     beginReceiving:[OCMArg anyObjectRef]];
-    
-    
+    browser.socket = mockSocket;
+
     // call
     [browser startBrowsingForServices:@"ssdp:all"];
-    
-    // verify
-    [_mockSocket verify];
+
+    XCTAssertTrue(mockSocket.didBindToAddress);
+    XCTAssertTrue(mockSocket.didJoinMulticastGroup);
+    XCTAssertTrue(mockSocket.didBeginReceiving);
 }
 
 - (void)testStoppingBrowsingForServicesClosesSocket
 {
+    MockSocket *mockSocket = [[MockSocket alloc] init];
     SSDPServiceBrowser *browser = [[SSDPServiceBrowser alloc] init];
-    browser.socket = _mockSocket;
-    
-    // expect
-    [[_mockSocket expect] close];
-    
+    browser.socket = mockSocket;
+
     // we can't check that the socket is nil due to the lazy instantiation I
     // added because the class doesn't support dependancy injection
-    
+
     // call
     [browser stopBrowsingForServices];
-    
-    // verify
-    [_mockSocket verify];
+
+    XCTAssertTrue(mockSocket.didClose);
 }
 
 - (void)testReceivingDataInformsDelegate
@@ -346,21 +355,20 @@
 - (void)testSocketClosingInformsDelegateWithError
 {
     SSDPServiceBrowser *browser = [[SSDPServiceBrowser alloc] init];
-    id fakeError = [OCMockObject mockForClass:[NSError class]];
+    NSError *fakeError = [NSError errorWithDomain:@"DOMAIN" code:20483 userInfo:nil];
     SSDPProtocolTestHelper *protocolHelper = [[SSDPProtocolTestHelper alloc] init];
     browser.delegate = protocolHelper;
     NSString *desc = @"informs delegate with error";
     XCTestExpectation *expectation = [self expectationWithDescription:desc];
     protocolHelper.errorServiceBlock = ^void (SSDPServiceBrowser *argBrowser, NSError *error) {
-        
+
         XCTAssert([argBrowser isEqual:browser], @"Browser should be passed to delegate");
         XCTAssert([error isEqual:fakeError], @"Socket error should be passed to delegate");
         [expectation fulfill];
     };
-    
+
     [browser udpSocketDidClose:nil withError:fakeError];
     [self waitForExpectationsWithTimeout:1.0 handler:nil];
-    [fakeError stopMocking];
 }
 
 @end
