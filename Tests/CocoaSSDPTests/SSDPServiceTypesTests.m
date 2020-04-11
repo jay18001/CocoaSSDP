@@ -35,13 +35,13 @@
 
 - (void)testServiceTypeAll {
     NSString *expected = @"ssdp:all";
-    XCTAssert([SSDPServiceType_All isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeAll isEqualToString:expected],
               @"All devices service type incorrect");
 }
 
 - (void)testServiceTypeRootDevice {
     NSString *expected = @"upnp:rootdevice";
-    XCTAssert([SSDPServiceType_UPnP_RootDevice isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPRootDevice isEqualToString:expected],
               @"Root devices service type incorrect");
 }
 
@@ -49,37 +49,37 @@
 
 - (void)testServiceTypeInternetGatewayDevice1 {
     NSString *expected = @"urn:schemas-upnp-org:device:InternetGatewayDevice:1";
-    XCTAssert([SSDPServiceType_UPnP_InternetGatewayDevice1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPInternetGatewayDevice1 isEqualToString:expected],
               @"Internet gateway device service type incorrect");
 }
 
 - (void)testServiceTypeWANConnectionDevice1 {
     NSString *expected = @"urn:schemas-upnp-org:device:WANConnectionDevice:1";
-    XCTAssert([SSDPServiceType_UPnP_WANConnectionDevice1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPWANConnectionDevice1 isEqualToString:expected],
               @"WAN connection device service type incorrect");
 }
 
 - (void)testServiceTypeWANDevice1 {
     NSString *expected = @"urn:schemas-upnp-org:device:WANDevice:1";
-    XCTAssert([SSDPServiceType_UPnP_WANDevice1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPWANDevice1 isEqualToString:expected],
               @"WAN device service type incorrect");
 }
 
 - (void)testServiceTypeWANCommonInterfaceConfig {
     NSString *expected = @"urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1";
-    XCTAssert([SSDPServiceType_UPnP_WANCommonInterfaceConfig1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPWANCommonInterfaceConfig1 isEqualToString:expected],
               @"WAN common interface config service type incorrect");
 }
 
 - (void)testServiceTypeWANIPConnection {
     NSString *expected = @"urn:schemas-upnp-org:service:WANIPConnection:1";
-    XCTAssert([SSDPServiceType_UPnP_WANIPConnection1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPWANIPConnection1 isEqualToString:expected],
               @"WAN IP connection service type incorrect");
 }
 
 - (void)testServiceTypeLayer3Forwarding {
     NSString *expected = @"urn:schemas-upnp-org:service:Layer3Forwarding:1";
-    XCTAssert([SSDPServiceType_UPnP_Layer3Forwarding1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPLayer3Forwarding1 isEqualToString:expected],
               @"Layer 3 forwarding service type incorrect");
 }
 
@@ -87,45 +87,45 @@
 
 - (void)testServiceTypeMediaServer {
     NSString *expected = @"urn:schemas-upnp-org:device:MediaServer:1";
-    XCTAssert([SSDPServiceType_UPnP_MediaServer1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPMediaServer1 isEqualToString:expected],
               @"Media server device service type incorrect");
 }
 
 - (void)testServiceTypeMediaRenderer {
     NSString *expected = @"urn:schemas-upnp-org:device:MediaRenderer:1";
-    XCTAssert([SSDPServiceType_UPnP_MediaRenderer1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPMediaRenderer1 isEqualToString:expected],
               @"Media renderer device service type incorrect");
 }
 
 - (void)testServiceTypeContentDirectory {
     NSString *expected = @"urn:schemas-upnp-org:service:ContentDirectory:1";
-    XCTAssert([SSDPServiceType_UPnP_ContentDirectory1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPContentDirectory1 isEqualToString:expected],
               @"Content directory service type incorrect");
 }
 
 - (void)testServiceTypeConnectionManager {
     NSString *expected = @"urn:schemas-upnp-org:service:ConnectionManager:1";
-    XCTAssert([SSDPServiceType_UPnP_ConnectionManager1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPConnectionManager1 isEqualToString:expected],
               @"Connection manager service type incorrect");
 }
 
 - (void)testServiceTypeRenderingControl {
     NSString *expected = @"urn:schemas-upnp-org:service:RenderingControl:1";
-    XCTAssert([SSDPServiceType_UPnP_RenderingControl1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPRenderingControl1 isEqualToString:expected],
               @"Rendering control service type incorrect");
 }
 
 - (void)testServiceTypeAVTransport {
     NSString *expected = @"urn:schemas-upnp-org:service:AVTransport:1";
-    XCTAssert([SSDPServiceType_UPnP_AVTransport1 isEqualToString:expected],
+    XCTAssert([SSDPServiceTypeUPnPAVTransport1 isEqualToString:expected],
               @"AV transport service type incorrect");
 }
 
 #pragma mark - Microsoft A/V Profile
 
 - (void)testServiceTypeMediaReceiverRegistrar {
-    NSString *expected = @"urn:microsoft.com:service:X_MS_MediaReceiverRegistrar:1";
-    XCTAssert([SSDPServiceType_Microsoft_MediaReceiverRegistrar1 isEqualToString:expected],
+    NSString *expected = @"urn:microsoft.com:service:XMSMediaReceiverRegistrar:1";
+    XCTAssert([SSDPServiceTypeMicrosoftMediaReceiverRegistrar1 isEqualToString:expected],
               @"Microsoft media receiver registrar service type incorrect");
 }
 
