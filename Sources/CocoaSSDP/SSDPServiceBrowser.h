@@ -22,6 +22,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <SSDPServiceTypes.h>
 
 @class SSDPServiceBrowser;
 @class SSDPService;
@@ -85,7 +86,7 @@
 
  @param serviceType The UPnP service type to search for.
  */
-- (void)startBrowsingForServices:(NSString *)serviceType;
+- (void)startBrowsingForServices:(SSDPServiceType)serviceType;
 
 /**
  Stop browsing for UPnP services.

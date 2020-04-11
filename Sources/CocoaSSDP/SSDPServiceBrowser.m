@@ -79,7 +79,7 @@ typedef enum : NSUInteger {
 }
 
 
-- (NSString *)_prepareSearchRequestWithServiceType:(NSString *)serviceType {
+- (NSString *)_prepareSearchRequestWithServiceType:(SSDPServiceType)serviceType {
     NSString *userAgent = [self _userAgentString];
 
     return [NSString stringWithFormat:@"M-SEARCH * HTTP/1.1\r\n"
@@ -112,7 +112,7 @@ typedef enum : NSUInteger {
 }
 
 
-- (void)startBrowsingForServices:(NSString *)serviceType {
+- (void)startBrowsingForServices:(SSDPServiceType)serviceType {
     
     if (!_socket.isConnected) {
         [self setupSocket];

@@ -22,7 +22,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <SSDPServiceTypes.h>
 /**
  A lightweight model class that describes an SSDP service, populated from headers
  returned by an SSDP search
@@ -37,7 +37,7 @@
 /**
  The UPnP service type of the device
  */
-@property(readonly, nonatomic) NSString *serviceType;
+@property(readonly, nonatomic) SSDPServiceType serviceType;
 
 /**
  The services unique service name
