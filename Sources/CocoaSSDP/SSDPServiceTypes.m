@@ -23,28 +23,30 @@
 
 @import Foundation;
 
-NSString *const SSDPServiceType_All = @"ssdp:all";
+#import "SSDPServiceTypes.h"
 
-NSString *const SSDPServiceType_UPnP_RootDevice = @"upnp:rootdevice";
+SSDPServiceType const SSDPServiceType_All = @"ssdp:all";
+
+SSDPServiceType const SSDPServiceType_UPnP_RootDevice = @"upnp:rootdevice";
 
 // UPnP Internet Gateway Device (IGD)
-NSString *const SSDPServiceType_UPnP_InternetGatewayDevice1 = @"urn:schemas-upnp-org:device:InternetGatewayDevice:1";
-NSString *const SSDPServiceType_UPnP_WANConnectionDevice1 = @"urn:schemas-upnp-org:device:WANConnectionDevice:1";
-NSString *const SSDPServiceType_UPnP_WANDevice1 = @"urn:schemas-upnp-org:device:WANDevice:1";
-NSString *const SSDPServiceType_UPnP_WANCommonInterfaceConfig1 = @"urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1";
-NSString *const SSDPServiceType_UPnP_WANIPConnection1 = @"urn:schemas-upnp-org:service:WANIPConnection:1";
-NSString *const SSDPServiceType_UPnP_Layer3Forwarding1 = @"urn:schemas-upnp-org:service:Layer3Forwarding:1";
+SSDPServiceType const SSDPServiceType_UPnP_InternetGatewayDevice1 = @"urn:schemas-upnp-org:device:InternetGatewayDevice:1";
+SSDPServiceType const SSDPServiceType_UPnP_WANConnectionDevice1 = @"urn:schemas-upnp-org:device:WANConnectionDevice:1";
+SSDPServiceType const SSDPServiceType_UPnP_WANDevice1 = @"urn:schemas-upnp-org:device:WANDevice:1";
+SSDPServiceType const SSDPServiceType_UPnP_WANCommonInterfaceConfig1 = @"urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1";
+SSDPServiceType const SSDPServiceType_UPnP_WANIPConnection1 = @"urn:schemas-upnp-org:service:WANIPConnection:1";
+SSDPServiceType const SSDPServiceType_UPnP_Layer3Forwarding1 = @"urn:schemas-upnp-org:service:Layer3Forwarding:1";
 
 // UPnP A/V profile
-NSString *const SSDPServiceType_UPnP_MediaServer1 = @"urn:schemas-upnp-org:device:MediaServer:1";
-NSString *const SSDPServiceType_UPnP_MediaRenderer1 = @"urn:schemas-upnp-org:device:MediaRenderer:1";
-NSString *const SSDPServiceType_UPnP_ContentDirectory1 = @"urn:schemas-upnp-org:service:ContentDirectory:1";
-NSString *const SSDPServiceType_UPnP_RenderingControl1 = @"urn:schemas-upnp-org:service:RenderingControl:1";
-NSString *const SSDPServiceType_UPnP_ConnectionManager1 = @"urn:schemas-upnp-org:service:ConnectionManager:1";
-NSString *const SSDPServiceType_UPnP_AVTransport1 = @"urn:schemas-upnp-org:service:AVTransport:1";
+SSDPServiceType const SSDPServiceType_UPnP_MediaServer1 = @"urn:schemas-upnp-org:device:MediaServer:1";
+SSDPServiceType const SSDPServiceType_UPnP_MediaRenderer1 = @"urn:schemas-upnp-org:device:MediaRenderer:1";
+SSDPServiceType const SSDPServiceType_UPnP_ContentDirectory1 = @"urn:schemas-upnp-org:service:ContentDirectory:1";
+SSDPServiceType const SSDPServiceType_UPnP_RenderingControl1 = @"urn:schemas-upnp-org:service:RenderingControl:1";
+SSDPServiceType const SSDPServiceType_UPnP_ConnectionManager1 = @"urn:schemas-upnp-org:service:ConnectionManager:1";
+SSDPServiceType const SSDPServiceType_UPnP_AVTransport1 = @"urn:schemas-upnp-org:service:AVTransport:1";
 
 // UPnP Microsoft A/V profile
-NSString *const SSDPServiceType_Microsoft_MediaReceiverRegistrar1 = @"urn:microsoft.com:service:X_MS_MediaReceiverRegistrar:1";
+SSDPServiceType const SSDPServiceType_Microsoft_MediaReceiverRegistrar1 = @"urn:microsoft.com:service:X_MS_MediaReceiverRegistrar:1";
 
 // UPnP Sonos
-NSString *const SSDPServiceType_UPnP_SonosZonePlayer1 = @"urn:schemas-upnp-org:device:ZonePlayer:1";
+SSDPServiceType const SSDPServiceType_UPnP_SonosZonePlayer1 = @"urn:schemas-upnp-org:device:ZonePlayer:1";
